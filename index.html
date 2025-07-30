@@ -163,6 +163,7 @@
       if ('NDEFReader' in window) {
         try {
           const ndef = new NDEFReader();
+          /*
           await ndef.scan();
           alert("NFC 태그를 기기에 가까이 대주세요...");
 
@@ -176,8 +177,8 @@
                 alert("NFC 인증 실패: 등록되지 않은 카드입니다.");
               }
             }
-          };
-         /* // 💡 NFC 이벤트 핸들러 먼저 등록
+          };*/
+          // 💡 NFC 이벤트 핸들러 먼저 등록
           ndef.onreading = (event) => {
             const decoder = new TextDecoder();
             for (const record of event.message.records) {
@@ -189,7 +190,7 @@
                 alert("NFC 인증 실패: 등록되지 않은 카드입니다.");
             }
          }
-      };*/
+      };
 
       alert("NFC 태그를 기기에 가까이 대주세요...");
       await ndef.scan(); // 💡 scan은 가장 마지막에 실행
