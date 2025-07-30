@@ -163,7 +163,7 @@
       if ('NDEFReader' in window) {
         try {
           const ndef = new NDEFReader();
-          await ndef.scan();
+          /*await ndef.scan();
           alert("NFC 태그를 기기에 가까이 대주세요...");
 
           ndef.onreading = (event) => {
@@ -176,7 +176,24 @@
                 alert("NFC 인증 실패: 등록되지 않은 카드입니다.");
               }
             }
-          };
+          };*/
+          // 💡 NFC 이벤트 핸들러 먼저 등록
+          ndef.onreading = (event) => {
+            const decoder = new TextDecoder();
+            for (const record of event.message.records) {
+              const text = decoder.decode(record.data);
+              console.log("NFC 태그 읽음:", text);
+              if (text === VALID_NFC_ID) {
+                document.getElementById("payment-modal").style.display = "flex";
+              } else {
+                alert("NFC 인증 실패: 등록되지 않은 카드입니다.");
+            }
+         }
+      };
+
+      alert("NFC 태그를 기기에 가까이 대주세요...");
+      await ndef.scan(); // 💡 scan은 가장 마지막에 실행
+    
         } catch (error) {
           alert("NFC 오류 발생: " + error);
         }
